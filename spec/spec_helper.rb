@@ -116,7 +116,7 @@ def fixture_target_definition(name = 'Pods', platform = Pod::Platform.ios, conte
   Pod::Podfile::TargetDefinition.new(name, parent, contents)
 end
 
-def fixture_pod_target(spec_or_name, build_type = Pod::BuildType.static_library, user_build_configurations = {},
+def fixture_pod_target(spec_or_name, build_type = Pod::BuildType.static_library, user_build_configurations = Pod::Target::DEFAULT_BUILD_CONFIGURATIONS,
                        archs = [], platform = Pod::Platform.new(:ios, '6.0'), target_definitions = [],
                        scope_suffix = nil)
   spec = spec_or_name.is_a?(Pod::Specification) ? spec_or_name : fixture_spec(spec_or_name)
@@ -124,7 +124,7 @@ def fixture_pod_target(spec_or_name, build_type = Pod::BuildType.static_library,
                                 scope_suffix)
 end
 
-def fixture_pod_target_with_specs(specs, build_type = Pod::BuildType.static_library, user_build_configurations = {},
+def fixture_pod_target_with_specs(specs, build_type = Pod::BuildType.static_library, user_build_configurations = Pod::Target::DEFAULT_BUILD_CONFIGURATIONS,
                                   archs = [], platform = Pod::Platform.new(:ios, '6.0'), target_definitions = [],
                                   scope_suffix = nil)
   target_definitions << fixture_target_definition if target_definitions.empty?

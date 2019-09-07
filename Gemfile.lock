@@ -7,8 +7,8 @@ GIT
 
 GIT
   remote: https://github.com/CocoaPods/Core.git
-  revision: fdae18f9d9cc0e396efb2a7579473f89a91273f6
-  branch: master
+  revision: aec2d22bd4d1f036e956d6a6308c123adc74c865
+  branch: segiddins/podspec-deps-by-config
   specs:
     cocoapods-core (1.8.1)
       activesupport (>= 4.0.2, < 6)
