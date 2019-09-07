@@ -929,7 +929,7 @@ module Pod
 
             it 'creates the xcconfig file' do
               @installer.install!
-              %w[debug release].each do |variant|
+              %w(debug release).each do |variant|
                 file = config.sandbox.root + @pod_target.xcconfig_path(variant)
                 xcconfig = Xcodeproj::Config.new(file)
                 xcconfig.to_hash['PODS_ROOT'].should == '${SRCROOT}'
@@ -1028,7 +1028,7 @@ module Pod
               @pod_target.stubs(:should_build?).returns(false)
               @installer.install!
               group = @project['Pods/BananaLib/Support Files']
-              group.children.map(&:display_name).sort.should == %w[BananaLib.debug.xcconfig BananaLib.release.xcconfig]
+              group.children.map(&:display_name).sort.should == %w(BananaLib.debug.xcconfig BananaLib.release.xcconfig)
             end
 
             it 'does not set architectures for targets that should not build' do

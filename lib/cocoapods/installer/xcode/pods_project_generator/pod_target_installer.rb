@@ -595,7 +595,7 @@ module Pod
 
               target.user_config_names_by_config_type.each do |config, names|
                 path = target.xcconfig_path("#{test_type.capitalize}-#{target.subspec_label(test_spec)}.#{config}")
-                test_spec_build_settings = target.build_settings_for_spec(test_spec, configuration: config)
+                test_spec_build_settings = target.build_settings_for_spec(test_spec, :configuration => config)
                 update_changed_file(test_spec_build_settings, path)
                 test_xcconfig_file_ref = add_file_to_support_group(path)
 
@@ -624,7 +624,7 @@ module Pod
               pt.specs.map(&:name)
             end.uniq
             resource_paths_by_config = target.user_build_configurations.each_with_object({}) do |(config_name, config), resources_by_config|
-              resources_by_config[config_name] = target.dependent_targets_for_test_spec(test_spec, configuration: config).flat_map do |pod_target|
+              resources_by_config[config_name] = target.dependent_targets_for_test_spec(test_spec, :configuration => config).flat_map do |pod_target|
                 spec_paths_to_include = pod_target.library_specs.map(&:name)
                 spec_paths_to_include -= host_target_spec_names
                 spec_paths_to_include << test_spec.name if pod_target == target
@@ -652,7 +652,7 @@ module Pod
               pt.specs.map(&:name)
             end.uniq
             framework_paths_by_config = target.user_build_configurations.each_with_object({}) do |(config_name, config), paths_by_config|
-              paths_by_config[config_name] = target.dependent_targets_for_test_spec(test_spec, configuration: config).flat_map do |pod_target|
+              paths_by_config[config_name] = target.dependent_targets_for_test_spec(test_spec, :configuration => config).flat_map do |pod_target|
                 spec_paths_to_include = pod_target.library_specs.map(&:name)
                 spec_paths_to_include -= host_target_spec_names
                 spec_paths_to_include << test_spec.name if pod_target == target
@@ -683,7 +683,7 @@ module Pod
 
               target.user_config_names_by_config_type.each do |config, names|
                 path = target.xcconfig_path("#{target.subspec_label(app_spec)}.#{config}")
-                app_spec_build_settings = target.build_settings_for_spec(app_spec, configuration: config)
+                app_spec_build_settings = target.build_settings_for_spec(app_spec, :configuration => config)
                 update_changed_file(app_spec_build_settings, path)
                 app_xcconfig_file_ref = add_file_to_support_group(path)
 
@@ -704,7 +704,7 @@ module Pod
           def create_app_target_copy_resources_script(app_spec)
             path = target.copy_resources_script_path_for_spec(app_spec)
             resource_paths_by_config = target.user_build_configurations.keys.each_with_object({}) do |config, resources_by_config|
-              pod_targets = target.dependent_targets_for_app_spec(app_spec, configuration: config)
+              pod_targets = target.dependent_targets_for_app_spec(app_spec, :configuration => config)
               resources_by_config[config] = pod_targets.flat_map do |pod_target|
                 spec_paths_to_include = pod_target.library_specs.map(&:name)
                 spec_paths_to_include << app_spec.name if pod_target == target
@@ -728,7 +728,7 @@ module Pod
           def create_app_target_embed_frameworks_script(app_spec)
             path = target.embed_frameworks_script_path_for_spec(app_spec)
             framework_paths_by_config = target.user_build_configurations.keys.each_with_object({}) do |config, paths_by_config|
-              pod_targets = target.dependent_targets_for_app_spec(app_spec, configuration: config)
+              pod_targets = target.dependent_targets_for_app_spec(app_spec, :configuration => config)
               paths_by_config[config] = pod_targets.flat_map do |pod_target|
                 spec_paths_to_include = pod_target.library_specs.map(&:name)
                 spec_paths_to_include << app_spec.name if pod_target == target
@@ -749,7 +749,7 @@ module Pod
           #
           def test_target_swift_debug_hack(test_spec, test_target_bc)
             return unless test_target_bc.debug?
-            return unless target.dependent_targets_for_test_spec(test_spec, configuration: nil).any?(&:uses_swift?)
+            return unless target.dependent_targets_for_test_spec(test_spec, :configuration => nil).any?(&:uses_swift?)
             ldflags = test_target_bc.build_settings['OTHER_LDFLAGS'] ||= '$(inherited)'
             ldflags << ' -lswiftSwiftOnoneSupport'
           end
