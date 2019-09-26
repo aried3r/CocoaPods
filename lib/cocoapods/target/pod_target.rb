@@ -51,6 +51,7 @@ module Pod
     attr_reader :dependent_targets
     attr_reader :dependent_targets_by_config
 
+    # @deprecated
     def dependent_targets=(dependent_targets)
       @dependent_targets = dependent_targets
       @dependent_targets_by_config = { :debug => dependent_targets, :release => dependent_targets }
@@ -69,12 +70,16 @@ module Pod
     # @deprecated
     def test_dependent_targets_by_spec_name=(test_dependent_targets_by_spec_name)
       @test_dependent_targets_by_spec_name = test_dependent_targets_by_spec_name
-      @test_dependent_targets_by_spec_name_by_config = test_dependent_targets_by_spec_name.transform_values { |dependent_targets| { :debug => dependent_targets, :release => dependent_targets } }
+      @test_dependent_targets_by_spec_name_by_config = test_dependent_targets_by_spec_name.transform_values do |dependent_targets|
+        { :debug => dependent_targets, :release => dependent_targets }
+      end
     end
 
     def test_dependent_targets_by_spec_name_by_config=(test_dependent_targets_by_spec_name_by_config)
       @test_dependent_targets_by_spec_name_by_config = test_dependent_targets_by_spec_name_by_config
-      @test_dependent_targets_by_spec_name = test_dependent_targets_by_spec_name_by_config.transform_values { |v| v.each_value.reduce(Set.new, &:|).to_a }
+      @test_dependent_targets_by_spec_name = test_dependent_targets_by_spec_name_by_config.transform_values do |v|
+        v.each_value.reduce(Set.new, &:|).to_a
+      end
     end
 
     # @return [Hash{String=>Array<PodTarget>}] all target dependencies by app spec name.
@@ -82,14 +87,19 @@ module Pod
     attr_reader :app_dependent_targets_by_spec_name
     attr_reader :app_dependent_targets_by_spec_name_by_config
 
+    # @deprecated
     def app_dependent_targets_by_spec_name=(app_dependent_targets_by_spec_name)
       @app_dependent_targets_by_spec_name = app_dependent_targets_by_spec_name
-      @app_dependent_targets_by_spec_name_by_config = app_dependent_targets_by_spec_name.transform_values { |dependent_targets| { :debug => dependent_targets, :release => dependent_targets } }
+      @app_dependent_targets_by_spec_name_by_config = app_dependent_targets_by_spec_name.transform_values do |dependent_targets|
+        { :debug => dependent_targets, :release => dependent_targets }
+      end
     end
 
     def app_dependent_targets_by_spec_name_by_config=(app_dependent_targets_by_spec_name_by_config)
       @app_dependent_targets_by_spec_name_by_config = app_dependent_targets_by_spec_name_by_config
-      @app_dependent_targets_by_spec_name = app_dependent_targets_by_spec_name_by_config.transform_values { |v| v.each_value.reduce(Set.new, &:|).to_a }
+      @app_dependent_targets_by_spec_name = app_dependent_targets_by_spec_name_by_config.transform_values do |v|
+        v.each_value.reduce(Set.new, &:|).to_a
+      end
     end
 
     # @return [Hash{String => (Specification,PodTarget)}] tuples of app specs and pod targets by test spec name.
