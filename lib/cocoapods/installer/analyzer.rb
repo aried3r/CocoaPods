@@ -709,8 +709,7 @@ module Pod
       # @param  [Hash<String, Specification>] all_specs
       #         All specifications which are installed alongside.
       #
-      # TODO:
-      # @return [Array<Specification>]
+      # @return [Hash{Symbol => Set<Specification>}]
       #
       def dependencies_for_specs(specs, platform, all_specs)
         dependent_specs = {
