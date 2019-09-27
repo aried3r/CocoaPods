@@ -53,6 +53,10 @@ module Pod
               return :project if other.key_hash['SPECS'] != key_hash['SPECS']
               return :project if other.key_hash['FILES'] != key_hash['FILES']
               return :project if other.key_hash['PROJECT_NAME'] != key_hash['PROJECT_NAME']
+            when :aggregate
+              # This is fine. Do nothing.
+            else
+              raise ArgumentError, "Unhandled type #{type.inspect}."
             end
 
             this_build_settings = key_hash['BUILD_SETTINGS_CHECKSUM']
@@ -71,7 +75,7 @@ module Pod
           key_hash
         end
 
-        # @return [String]
+        # @return [Object]
         #         The name of the project the target belongs to.
         #
         def project_name

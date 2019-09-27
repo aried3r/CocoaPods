@@ -547,7 +547,7 @@ module Pod
       # @param  [Array<String>] build_configurations
       #         The list of all build configurations the targets will be built for.
       #
-      # @return [Hash{String=>Array<PodTarget>}]
+      # @return [Hash{String => Array<PodTarget>}]
       #         the filtered list of pod targets, grouped by build configuration.
       #
       def filter_pod_targets_for_target_definition(target_definition, pod_targets_by_target_definition, build_configurations)
@@ -660,17 +660,17 @@ module Pod
         end
 
         pod_targets.each do |target|
-          dependencies_by_config = dependencies_for_specs(target.library_specs.to_set, target.platform, all_specs)
+          dependencies_by_config = dependencies_for_specs(target.library_specs, target.platform, all_specs)
           target.dependent_targets_by_config = dependencies_by_config.transform_values { |deps| filter_dependencies(deps, pod_targets_by_name, target) }
 
           target.test_dependent_targets_by_spec_name_by_config = target.test_specs.each_with_object({}) do |test_spec, hash|
-            test_dependencies_by_config = dependencies_for_specs([test_spec].to_set, target.platform, all_specs)
+            test_dependencies_by_config = dependencies_for_specs([test_spec], target.platform, all_specs)
             test_dependencies_by_config.each { |config, deps| deps.delete_if { |k, _| dependencies_by_config[config].key? k } }
             hash[test_spec.name] = test_dependencies_by_config.transform_values { |deps| filter_dependencies(deps, pod_targets_by_name, target) }
           end
 
           target.app_dependent_targets_by_spec_name_by_config = target.app_specs.each_with_object({}) do |app_spec, hash|
-            app_dependencies_by_config = dependencies_for_specs([app_spec].to_set, target.platform, all_specs)
+            app_dependencies_by_config = dependencies_for_specs([app_spec], target.platform, all_specs)
             app_dependencies_by_config.each { |config, deps| deps.delete_if { |k, _| dependencies_by_config[config].key? k } }
             hash[app_spec.name] = app_dependencies_by_config.transform_values { |deps| filter_dependencies(deps, pod_targets_by_name, target) }
           end
@@ -700,7 +700,7 @@ module Pod
       # @note: This is implemented in the analyzer, because we don't have to
       #        care about the requirements after dependency resolution.
       #
-      # @param  [Set<Specification>] specs
+      # @param  [Array<Specification>] specs
       #         The specs, whose dependencies should be returned.
       #
       # @param  [Platform] platform
@@ -742,7 +742,6 @@ module Pod
         end
 
         dependent_specs.transform_values { |v| (v - specs).group_by(&:root) }.freeze
-        dependent_specs
       end
 
       # Create a target for each spec group
