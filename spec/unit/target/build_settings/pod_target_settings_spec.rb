@@ -288,7 +288,7 @@ module Pod
 
           it 'includes correct other ld flags when requires frameworks' do
             @coconut_pod_target.stubs(:build_type => BuildType.dynamic_framework)
-            generator = PodTargetSettings.new(@coconut_pod_target, @coconut_test_spec, configuration: :debug)
+            generator = PodTargetSettings.new(@coconut_pod_target, @coconut_test_spec, :configuration => :debug)
             xcconfig = generator.generate
             xcconfig.to_hash['OTHER_LDFLAGS'].should == '$(inherited) -ObjC -framework "CoconutLib"'
           end
