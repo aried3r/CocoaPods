@@ -747,7 +747,7 @@ module Pod
           #
           def test_target_swift_debug_hack(test_spec, test_target_bc)
             return unless test_target_bc.debug?
-            return unless target.dependent_targets_for_test_spec(test_spec, :configuration => nil).any?(&:uses_swift?)
+            return unless target.dependent_targets_for_test_spec(test_spec).any?(&:uses_swift?)
             ldflags = test_target_bc.build_settings['OTHER_LDFLAGS'] ||= '$(inherited)'
             ldflags << ' -lswiftSwiftOnoneSupport'
           end
