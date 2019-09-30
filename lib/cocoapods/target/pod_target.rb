@@ -608,7 +608,7 @@ module Pod
         []
       else
         app_spec, app_target = *app_host_info
-        app_target.dependent_targets_for_app_spec(app_spec, configuration)
+        app_target.dependent_targets_for_app_spec(app_spec, configuration: configuration)
       end
     end
 

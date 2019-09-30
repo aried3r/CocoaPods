@@ -570,7 +570,7 @@ module Pod
             # on the guard above, so include any vendored static frameworks.
             frameworks.concat vendored_static_frameworks.map { |l| File.basename(l, '.framework') } if target.should_build?
             # Also include any vendored dynamic frameworks of dependencies.
-            frameworks.concat dependent_targets.reject(&:should_build?).flat_map { |pt| pt.build_settings.dynamic_frameworks_to_import }
+            frameworks.concat dependent_targets.reject(&:should_build?).flat_map { |pt| pt.build_settings_by_config[@configuration].dynamic_frameworks_to_import }
           else
             frameworks.concat dependent_targets_to_link.flat_map { |pt| pt.build_settings_by_config[@configuration].frameworks_to_import }
           end
