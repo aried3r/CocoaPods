@@ -62,9 +62,9 @@ module Pod
             output_paths_by_config = {}
 
             dependent_targets = if spec.test_specification?
-                                  target.dependent_targets_for_test_spec(spec, configuration: nil)
+                                  target.dependent_targets_for_test_spec(spec)
                                 else
-                                  target.dependent_targets_for_app_spec(spec, configuration: nil)
+                                  target.dependent_targets_for_app_spec(spec)
                                 end
             host_target_spec_names = target.app_host_dependent_targets_for_spec(spec).flat_map do |pt|
               pt.specs.map(&:name)
@@ -107,9 +107,9 @@ module Pod
             output_paths_by_config = {}
 
             dependent_targets = if spec.test_specification?
-                                  target.dependent_targets_for_test_spec(spec, configuration: nil)
+                                  target.dependent_targets_for_test_spec(spec)
                                 else
-                                  target.dependent_targets_for_app_spec(spec, configuration: nil)
+                                  target.dependent_targets_for_app_spec(spec)
                                 end
             host_target_spec_names = target.app_host_dependent_targets_for_spec(spec).flat_map do |pt|
               pt.specs.map(&:name)

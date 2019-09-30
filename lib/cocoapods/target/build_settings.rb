@@ -527,7 +527,7 @@ module Pod
             @xcconfig_spec_type = :library
             @library_xcconfig = true
           end
-          (@configuration = configuration) || raise("no conf for #{self}")
+          (@configuration = configuration) || raise("No configuration for #{self}.")
         end
 
         # @return [Xcodeproj::Xconfig]
@@ -964,7 +964,7 @@ module Pod
         def initialize(target, configuration_name, configuration: nil)
           super(target)
           @configuration_name = configuration_name
-          (@configuration = configuration) || raise("no conf for #{self}")
+          (@configuration = configuration) || raise("No configuration for #{self}.")
         end
 
         # @return [Xcodeproj::Config] xcconfig
