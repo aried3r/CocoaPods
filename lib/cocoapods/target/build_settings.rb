@@ -887,7 +887,7 @@ module Pod
         define_build_settings_method :dependent_targets_to_link, :memoized => true do
           if test_xcconfig?
             # we're embedding into an app defined by an app spec
-            host_targets = target.app_host_dependent_targets_for_spec(non_library_spec, configuration: @configuration)
+            host_targets = target.app_host_dependent_targets_for_spec(non_library_spec, :configuration => @configuration)
             dependent_targets - host_targets
           else
             dependent_targets

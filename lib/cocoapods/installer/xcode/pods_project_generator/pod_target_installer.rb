@@ -490,7 +490,7 @@ module Pod
           # @param  [Array<Sandbox::FileAccessor>] file_accessors
           #         the file accessors list to generate resource bundles for.
           #
-          # @return [Array<PBXNativeTarget>] the resource bundle native targets created.
+          # @return [Hash{String=>Array<PBXNativeTarget>}] the resource bundle native targets created.
           #
           def add_resources_bundle_targets(file_accessors)
             file_accessors.each_with_object({}) do |file_accessor, hash|
@@ -619,7 +619,6 @@ module Pod
           #
           def create_test_target_copy_resources_script(test_spec)
             path = target.copy_resources_script_path_for_spec(test_spec)
-            pod_targets = target.dependent_targets_for_test_spec(test_spec)
             host_target_spec_names = target.app_host_dependent_targets_for_spec(test_spec).flat_map do |pt|
               pt.specs.map(&:name)
             end.uniq
@@ -647,7 +646,6 @@ module Pod
           #
           def create_test_target_embed_frameworks_script(test_spec)
             path = target.embed_frameworks_script_path_for_spec(test_spec)
-            pod_targets = target.dependent_targets_for_test_spec(test_spec)
             host_target_spec_names = target.app_host_dependent_targets_for_spec(test_spec).flat_map do |pt|
               pt.specs.map(&:name)
             end.uniq

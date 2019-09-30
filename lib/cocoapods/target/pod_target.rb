@@ -601,14 +601,14 @@ module Pod
     #
     # @return [Array<PodTarget>] the app host dependent targets for the given spec.
     #
-    def app_host_dependent_targets_for_spec(spec)
+    def app_host_dependent_targets_for_spec(spec, configuration: nil)
       return [] unless spec.test_specification? && spec.consumer(platform).test_type == :unit
       app_host_info = test_app_hosts_by_spec_name[spec.name]
       if app_host_info.nil?
         []
       else
         app_spec, app_target = *app_host_info
-        app_target.dependent_targets_for_app_spec(app_spec)
+        app_target.dependent_targets_for_app_spec(app_spec, configuration)
       end
     end
 

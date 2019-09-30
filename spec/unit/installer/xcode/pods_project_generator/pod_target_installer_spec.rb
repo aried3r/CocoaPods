@@ -1393,7 +1393,7 @@ module Pod
                 @banana_spec.resource_bundle = nil
                 @project.add_pod_group('BananaLib', fixture('banana-lib'))
 
-                @pod_target = fixture_pod_target(@banana_spec, BuildType.dynamic_framework, { 'Debug' => :debug, 'Release' => :release) }
+                @pod_target = fixture_pod_target(@banana_spec, BuildType.dynamic_framework, { 'Debug' => :debug, 'Release' => :release })
                 target_installer = PodTargetInstaller.new(config.sandbox, @project, @pod_target)
 
                 # Use a file references installer to add the files so that the correct ones are added.
